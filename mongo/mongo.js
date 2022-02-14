@@ -9,17 +9,16 @@ const client = new MongoClient(`mongodb://${process.env.MONGO_HOST}:${process.en
     useUnifiedTopology: true
 })
 
-//Criando função para fazer conexão com o banco e adicionar novas postagens
-async function createNewPost(req, res){
-    const { id, text, title } = req.body
+//Criando função para fazer conexão com o banco e adicionar novos usuários
+async function createNewUser(req, res){
+    const { name, email } = req.body
     try{
         await client.connect()
         console.log('Conectado ao Mongodb!')
         const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
             await mongodb.insertOne({
-                id: id,
-                text: text,
-                title: title
+                name: name,
+                email: email
             })
         res.status(200).send('inserido')
     }catch(error){
@@ -31,7 +30,7 @@ async function createNewPost(req, res){
 }
 
 //Criando função para recuperar os dados salvos no banco 
-async function getPosts(req, res){
+async function getUsers(req, res){
     try{
         await client.connect()
         console.log('Conectado ao Mongodb!')
@@ -51,6 +50,6 @@ async function getPosts(req, res){
 }
 
 module.exports = {
-    createNewPost,
-    getPosts
+    createNewUser,
+    getUsers
 }
