@@ -16,13 +16,8 @@ async function createNewUser(req, res){
         await client.connect()
             console.log('Conectado ao Mongodb!')
         //Fazendo verificação de usuários existenstes
-        let countUsers = 0
-        let users = await returnUsers()
-            users.forEach(item=>{
-                if(item.email == email){
-                    count = 1
-                }
-            })
+        let countUsers = await returnUsers(email)
+    
         //Se não existir usuários com o email informado, permitir cadastro
         if(countUsers == 0){
             const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
@@ -64,13 +59,18 @@ async function getUsers(req, res){
 
 
 //Função que faz a verificação de usuários existenstes
-async function returnUsers(){
+async function returnUsers(email){
     try {
         const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
         let results = []
         await mongodb.find().forEach(item=>{results.push(item)})
-
-        return results
+        let countUsers = 0
+            results.forEach(item=>{
+                if(item.email == email){
+                    countUsers = 1
+                }
+            })
+        return countUsers
     } catch (error) {
         console.log(error)
     }
@@ -85,13 +85,8 @@ async function updateUser(req, res){
         const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
             console.log('Conectado ao Mongo!')
         //Fazendo verificação de usuários existenstes
-        let users = await returnUsers()
-        let countUsers = 0
-        users.forEach(item=>{
-            if(item.email == oldEmail){
-                countUsers = 1
-            }
-        })
+        let countUsers = await returnUsers(oldEmail)
+
         if(countUsers == 1){
             const query = {email: oldEmail}
             const update = {$set: {name:newName, email: newEmail}}
