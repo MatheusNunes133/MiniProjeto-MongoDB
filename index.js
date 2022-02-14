@@ -24,6 +24,11 @@ app.get('/getUsers',mongodb.getUsers)
 app.post('/updateUsers', mongodb.updateUser)
 app.post('/deleteUser', mongodb.deleteUser)
 
+//Importando arquivo onde estão as funções de interação com o BD
+const mongodbPosts = require('./mongo/posts')
+
+app.post('/addPostToMongo', mongodbPosts.addPostToMongo)
+app.get('/getPostsMongo',mongodbPosts.getPostsMongo)
 
 app.listen(port,()=>{
     console.log(`Server online na porta ${port}`)
