@@ -15,9 +15,10 @@ app.use(function(req, res, next){
     next()
 });
 
-
+//Importando arquivo onde estão as funções que interagem com o BD
 const mongodb = require('./mongo/mongo')
 
+//Criando caminhos para o CRUD de usuário
 app.post('/createNewUser',mongodb.createNewUser)
 app.get('/getUsers',mongodb.getUsers)
 app.post('/updateUsers', mongodb.updateUser)
