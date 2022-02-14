@@ -16,6 +16,9 @@ app.use(function(req, res, next){
 });
 
 
+const mongodb = require('./mongo/mongo')
+
+
 app.listen(port,()=>{
     console.log(`Server online na porta ${port}`)
 })
