@@ -102,8 +102,31 @@ async function updateUser(req, res){
     }
 }
 
+// Função responsável por deletar usuários existentes
+async function deleteUser(req, res){
+    const { email } = req.body
+    try {
+        await client.connect();
+        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
+        console.log('Conectado ao Mongo!')
+        //Verificação de usuários existentes
+        let countUsers = await returnUsers(email)
+        if(countUsers == 1){
+            await mongodb.deleteOne({email: email})
+            return res.status(200).send('Deletado com sucesso')
+        }else{
+            return res.status(400).send('Esse email não existe para que possa ser deletado')
+        }
+    } catch (error) {
+        console.log(error)
+    }finally{
+        await client.close()
+    }
+}
+
 module.exports = {
     createNewUser,
     getUsers,
-    updateUser
+    updateUser,
+    deleteUser
 }
