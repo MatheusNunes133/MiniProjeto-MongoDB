@@ -76,3 +76,37 @@ fetch('http://localhost:3000/deleteUser',{
 		console.log('Falha ao remover usuário!')
 	}
 })
+
+--------------Adicionando Postagem no banco de dados Mongo------------------
+
+let obj = {
+    id: {
+      	cpf: '123.123.123-12',
+		email: 'matheus@matheus.com'
+    },
+	title: 'Testando mongo',
+	text: 'Isso é somento um teste para postar no mongoDB'
+}
+
+
+fetch('http://localhost:3000/addPostToMongo',{
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Headers': '*'
+    },
+    body: JSON.stringify(obj)
+}).then((resp)=>{
+        if(resp.status ==200){
+            console.log('Postagem adicionada com sucesso!')
+        }else{
+            console.log('Falha ao adicionar postagem')
+        }
+})
+
+--------------Recuperando Postagens do banco de dados Mongo------------------
+
+fetch('http://localhost:3000/getPostsMongo')
+.then(response=>{return response.json()})
+.then(resp=>console.log(resp))
