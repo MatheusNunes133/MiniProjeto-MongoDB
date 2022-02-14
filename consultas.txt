@@ -1,0 +1,78 @@
+--------------Adicionando usuário no banco de dados Mongo------------------
+
+let obj = {
+    name: 'Matheus',
+    email: 'matheus@matheus.com'
+}
+
+
+fetch('http://localhost:3000/createNewUser',{
+    method: 'POST',
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Headers': '*'
+    },
+    body: JSON.stringify(obj)
+}).then((resp)=>{
+        if(resp.status ==200){
+            console.log('Usuários adicionado com sucesso!')
+        }else{
+            console.log('Falha ao adicionar usuário')
+        }
+})
+
+
+--------------Recuperando usuários do banco de dados Mongo------------------
+
+fetch('http://localhost:3000/getUsers')
+.then(response=>{return response.json()})
+.then(resp=>console.log(resp))
+
+--------------Fazendo update de usuários no banco de dados Mongo------------
+
+let obj = {
+ 	newName: 'Matheus Nunes',
+	oldEmail: 'matheus@matheus.com',
+	newEmail: 'matheus_10@gmail.com'
+}
+
+
+fetch('http://localhost:3000/updateUsers',{
+	method: 'POST',
+	headers: {
+    	'Accept': 'application/json',
+     	'Content-Type': 'application/json',
+		'Access-Control-Allow-Headers': '*'
+	},
+	body: JSON.stringify(obj)
+}).then((response)=>{
+	if(response.status == 200){
+		console.log('Usuário atualizado com sucesso!')
+	}else{
+		console.log('Falha ao atualizar usuário!')
+	}
+})
+
+--------------Fazendo remoção de usuários no banco de dados Mongo------------
+
+let obj = {
+	email: 'matheus_10@gmail.com'
+}
+
+
+fetch('http://localhost:3000/deleteUser',{
+	method: 'POST',
+	headers: {
+    	'Accept': 'application/json',
+     	'Content-Type': 'application/json',
+		'Access-Control-Allow-Headers': '*'
+	},
+	body: JSON.stringify(obj)
+}).then((response)=>{
+	if(response.status == 200){
+		console.log('Usuário removido com sucesso!')
+	}else{
+		console.log('Falha ao remover usuário!')
+	}
+})
