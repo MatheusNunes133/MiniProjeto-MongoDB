@@ -18,8 +18,8 @@ app.use(function(req, res, next){
 
 const mongodb = require('./mongo/mongo')
 
-app.post('/createNewPost',mongodb.createNewPost)
-app.get('/getPosts',mongodb.getPosts)
+app.post('/createNewUser',mongodb.createNewUser)
+app.get('/getUsers',mongodb.getUsers)
 
 app.listen(port,()=>{
     console.log(`Server online na porta ${port}`)
