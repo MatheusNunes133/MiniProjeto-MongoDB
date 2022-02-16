@@ -63,7 +63,7 @@ async function getPostsMongo(req, res){
         const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
         
         let results = []
-        await mongodb.find().forEach(item=>{results.push(item)})
+        await mongodb.find({id: {$exists: true}}).forEach(item=>{results.push(item)})
 
         return res.status(200).send(results)
 
