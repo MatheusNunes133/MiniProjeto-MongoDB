@@ -19,7 +19,7 @@ async function createNewUser(req, res){
         let countUsers = await returnUsers(email)
     
         //Se não existir usuários com o email informado, permitir cadastro
-        if(countUsers == 0){
+        if(countUsers == 0 && name != '' && email != ''){
             const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
                 await mongodb.insertOne({
                     name: name,
@@ -27,7 +27,7 @@ async function createNewUser(req, res){
                 })
             res.status(200).send('inserido')
         }else{
-            res.status(400).send('Email já registrado!')
+            res.status(400).send('Email já registrado ou existem campos em branco!')
         }
     }catch(error){
         console.log(error)
@@ -87,7 +87,7 @@ async function updateUser(req, res){
         //Fazendo verificação de usuários existenstes
         let countUsers = await returnUsers(oldEmail)
 
-        if(countUsers == 1){
+        if(countUsers == 1 && newEmail != '' && newEmail != ''){
             const query = {email: oldEmail}
             const update = {$set: {name:newName, email: newEmail}}
                 mongodb.updateOne(query,update)
@@ -95,7 +95,7 @@ async function updateUser(req, res){
                 .finally(()=>client.close)
                return  res.status(200).send('atualizado')
         }else{
-            return  res.status(400).send('Não existe esse email para ser atualizado!')
+            return  res.status(400).send('Não existe esse email para ser atualizado ou campos vazios!')
         }
     } catch (error) {
         console.log(error)
