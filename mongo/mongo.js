@@ -20,7 +20,7 @@ async function createNewUser(req, res){
     
         //Se não existir usuários com o email informado, permitir cadastro
         if(countUsers == 0 && name != '' && email != ''){
-            const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
+            const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection(`${process.env.MONGO_COLLECTION}`)
                 await mongodb.insertOne({
                     name: name,
                     email: email
@@ -42,7 +42,7 @@ async function getUsers(req, res){
     try{
         await client.connect()
         console.log('Conectado ao Mongodb!')
-        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
+        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection(`${process.env.MONGO_COLLECTION}`)
         let results = []
         await mongodb.find().forEach(item=>{results.push(item)})
 
@@ -61,7 +61,7 @@ async function getUsers(req, res){
 //Função que faz a verificação de usuários existenstes
 async function returnUsers(email){
     try {
-        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
+        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection(`${process.env.MONGO_COLLECTION}`)
         let results = []
         await mongodb.find().forEach(item=>{results.push(item)})
         let countUsers = 0
@@ -82,7 +82,7 @@ async function updateUser(req, res){
     const { newName, oldEmail, newEmail } = req.body
     try {
         await client.connect()
-        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
+        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection(`${process.env.MONGO_COLLECTION}`)
             console.log('Conectado ao Mongo!')
         //Fazendo verificação de usuários existenstes
         let countUsers = await returnUsers(oldEmail)
@@ -107,7 +107,7 @@ async function deleteUser(req, res){
     const { email } = req.body
     try {
         await client.connect();
-        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
+        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection(`${process.env.MONGO_COLLECTION}`)
         console.log('Conectado ao Mongo!')
         //Verificação de usuários existentes
         let countUsers = await returnUsers(email)

@@ -13,7 +13,7 @@ const client = new MongoClient(`mongodb://${process.env.MONGO_HOST}:${process.en
 //Função que faz a verificação de usuários existenstes
 async function returnUsers(email){
     try {
-        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
+        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection(`${process.env.MONGO_COLLECTION}`)
         let results = []
         await mongodb.find().forEach(item=>{results.push(item)})
         let countUsers = 0
@@ -33,7 +33,7 @@ async function addPostToMongo(req, res){
     const { id, title, text } = req.body
     try{
         await client.connect();
-        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
+        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection(`${process.env.MONGO_COLLECTION}`)
         console.log('Cliente conectado!')
         let countUsers = await returnUsers(id.email)
 
@@ -60,7 +60,7 @@ async function getPostsMongo(req, res){
     const { email } = req.body
     try {
         await client.connect();
-        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
+        const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection(`${process.env.MONGO_COLLECTION}`)
         
         let results = []
         await mongodb.find({id: {$exists: true}}).forEach(item=>{results.push(item)})
