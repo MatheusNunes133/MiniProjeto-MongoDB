@@ -82,7 +82,7 @@ fetch('http://localhost:3000/deleteUser',{
 let obj = {
     id: {
       	cpf: '123.123.123-12',
-		email: 'matheus@matheus.com'
+		email: 'matheus_10@gmail.com'
     },
 	title: 'Testando mongo',
 	text: 'Isso é somento um teste para postar no mongoDB'
@@ -108,7 +108,7 @@ fetch('http://localhost:3000/addPostToMongo',{
 --------------Recuperando Postagens do banco de dados Mongo------------------
 
 let obj = {
-	email: 'matheus@matheus.com'
+	email: 'matheus_10@gmail.com'
 }
 
 fetch('http://localhost:3000/getPostsMongo',{
