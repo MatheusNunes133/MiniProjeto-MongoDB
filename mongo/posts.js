@@ -35,7 +35,6 @@ async function addPostToMongo(req, res){
         await client.connect();
         const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
         console.log('Cliente conectado!')
-        console.log(id.email)
         let countUsers = await returnUsers(id.email)
 
         if(countUsers == 1){
@@ -58,6 +57,7 @@ async function addPostToMongo(req, res){
 
 //Criando função para recuperar os posts ao MongoDB
 async function getPostsMongo(req, res){
+    const { email } = req.body
     try {
         await client.connect();
         const mongodb = client.db(`${process.env.MONGO_DATABASE}`).collection('Usuarios')
@@ -65,7 +65,11 @@ async function getPostsMongo(req, res){
         let results = []
         await mongodb.find({id: {$exists: true}}).forEach(item=>{results.push(item)})
 
-        return res.status(200).send(results)
+        results.forEach((item, indice)=>{
+            if(item.id.email == email){
+                res.status(200).send(results[indice])
+            }
+        })
 
     }catch(error){
         console.log(error)
