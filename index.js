@@ -28,7 +28,7 @@ app.post('/deleteUser', mongodb.deleteUser)
 const mongodbPosts = require('./mongo/posts')
 
 app.post('/addPostToMongo', mongodbPosts.addPostToMongo)
-app.get('/getPostsMongo',mongodbPosts.getPostsMongo)
+app.post('/getPostsMongo',mongodbPosts.getPostsMongo)
 
 app.listen(port,()=>{
     console.log(`Server online na porta ${port}`)
